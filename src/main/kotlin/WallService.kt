@@ -1,6 +1,7 @@
 object WallService {
     var posts = emptyArray<Post>()
 
+
     fun clear() {
         posts = emptyArray()
     }
@@ -20,12 +21,13 @@ object WallService {
     }
 
     fun update(content: Post): Boolean {
-        for ((index,post) in posts.withIndex()){
-            if (post.getID()==content.getID()){
+        for ((index, post) in posts.withIndex()) {
+            if (post.getID() == content.getID()) {
                 posts[index] = posts[index].fillOutOf(content)
                 return true
             }
         }
         return false
     }
+
 }

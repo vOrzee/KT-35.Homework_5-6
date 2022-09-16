@@ -1,10 +1,18 @@
+import org.junit.After
+import org.junit.AfterClass
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
 class WallTest {
+
+    @Before
+    fun cleaner() {
+        Enumerator.clear()
+    }
+
     @Test
     fun testAdds() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post = Post(734, "Какая-то запись")
         val resultPost = wallService.add(post)
@@ -13,7 +21,6 @@ class WallTest {
 
     @Test
     fun testAddsRepeat() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post = wallService.add(Post(734, "Какая-то запись"))
         try {
@@ -26,7 +33,6 @@ class WallTest {
 
     @Test
     fun testAddsRepeatVararg() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post = wallService.add(Post(734, "Какая-то запись"))
         val post2 = Post(734, "Какая-то ещё запись")
@@ -40,7 +46,6 @@ class WallTest {
 
     @Test
     fun testUpdateInText() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -58,7 +63,6 @@ class WallTest {
 
     @Test
     fun testUpdateIn() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -70,7 +74,6 @@ class WallTest {
 
     @Test
     fun testUpdateOut() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -86,7 +89,6 @@ class WallTest {
 
     @Test
     fun testSetterParam() {
-        Enumerator.clear()
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
         val post3 = Post(734, "Третий пост")
@@ -112,7 +114,6 @@ class WallTest {
 
     @Test
     fun testCopyPost() {
-        Enumerator.clear()
         val wallService = Wall(734)
         val wallService2 = Wall(865)
         val post1: Post = wallService.add(Post(734, "Первый пост"))
@@ -128,7 +129,6 @@ class WallTest {
 
     @Test
     fun dateIsNullable() {
-        Enumerator.clear()
         val post1 = Post(734, "Первый пост")
         val result = post1.getDate()
         val result2 = post1.getDateUnixTime()
@@ -143,14 +143,19 @@ class WallTest {
         val result2 = post1.getDateUnixTime()
         assertTrue(result != "Запись ещё не опубликована" && result2 != null)
     }
+
     @Test
-    fun testSetPosts(){
-        Enumerator.clear()
+    fun testSetPosts() {
         val wall = Wall(734)
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
-        val posts = mutableListOf(post1,post2)
+        val posts = mutableListOf(post1, post2)
         wall.posts = posts
-        assertEquals(posts,wall.posts)
+        assertEquals(posts, wall.posts)
+    }
+
+    @AfterClass
+    fun clearing() {
+        cleaner()
     }
 }
