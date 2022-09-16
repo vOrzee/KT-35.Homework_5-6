@@ -110,7 +110,7 @@ class WallServiceTest {
         assertEquals(posts.toString(), WallService.posts.toString())
     }
 
-    @AfterClass
+    @Test
     fun clearing() {
         cleaner()
     }

@@ -154,7 +154,7 @@ class WallTest {
         assertEquals(posts, wall.posts)
     }
 
-    @AfterClass
+    @Test
     fun clearing() {
         cleaner()
     }
