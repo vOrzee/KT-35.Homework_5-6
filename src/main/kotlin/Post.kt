@@ -11,29 +11,15 @@ data class Post(
     var friendsOnly: Boolean = false,
     var postType: PostType = PostType.POST,
     var canDelete: Boolean = false,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
 ) {
     private var id: Int? = null
     private var ownerID: Int? = null
     private var date: Int? = null
-    private var comments = object {
-        var count: Int = 0
-        var canPost = true
-        var groupsCanPost = true
-        var canClose = false
-        var canOpenBoolean = false
-    }
-    private var likes = object {
-        var count: Int = 0
-        var userLikes = false
-        var canLike = true
-        var canPublish = true
-    }
-    companion object {
-        private var totalID: Int = 0
-    }
+    private var comments: Comments = Comments(0, true, true, true, true)
+    private var likes: Likes = Likes(0, false, true, true)
 
-    fun copy(postChanged: Post): Post {
+    fun fillOutOf(postChanged: Post): Post {
         val postAfter: Post = postChanged
         postAfter.date = this.date
         postAfter.id = this.id
@@ -44,8 +30,9 @@ data class Post(
     }
 
     fun publish(ownerID: Int): Boolean = if (id == null) {
-        totalID += 1
-        id = totalID
+        //Эта функция вместо init блока, так как по логике задания пост должен "существовать" на "какой-то" стене
+        Enumerator.countPosts += 1
+        id = Enumerator.countPosts
         date = (currentTimeMillis() / 1000).toInt()
         this.ownerID = ownerID
         true
@@ -59,3 +46,18 @@ data class Post(
 
     fun getDateUnixTime() = date
 }
+
+data class Comments(
+    val count: Int,
+    val canPost: Boolean,
+    val groupsCanPost: Boolean,
+    val canClose: Boolean,
+    val canOpen: Boolean
+)
+
+data class Likes(
+    val count: Int,
+    val userLikes: Boolean,
+    val canLike: Boolean,
+    val canPublish: Boolean
+)

@@ -7,7 +7,7 @@ object WallService {
 
     fun add(ownerID: Int, vararg content: Post): Array<Post> {
         content.forEach {
-            if (it.publish(ownerID)) posts = posts.add(it)
+            if (it.publish(ownerID)) posts += it
             else throw PublishedBeforeException("Один или несколько постов уже были опубликованы")
         }
         return arrayOf(*content)
@@ -22,17 +22,10 @@ object WallService {
     fun update(content: Post): Boolean {
         for ((index,post) in posts.withIndex()){
             if (post.getID()==content.getID()){
-                posts[index] = posts[index].copy(content)
+                posts[index] = posts[index].fillOutOf(content)
                 return true
             }
         }
         return false
     }
-}
-
-// extensions for Array
-private fun Array<Post>.add(element: Post): Array<Post> {
-    val list: MutableList<Post> = this.toMutableList()
-    list.add(element)
-    return list.toTypedArray()
 }

@@ -19,7 +19,7 @@ class Wall(private val ownerID: Int) : FillerContent<Post> {
     override fun update(content: Post): Boolean {
         posts.forEach {
             if (it.getID() == content.getID()) {
-                posts[posts.indexOf(it)] = posts[posts.indexOf(it)].copy(content)
+                posts[posts.indexOf(it)] = posts[posts.indexOf(it)].fillOutOf(content)
                 return true
             }
         }
