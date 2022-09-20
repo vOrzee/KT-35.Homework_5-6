@@ -110,6 +110,25 @@ class WallServiceTest {
         assertEquals(posts.toString(), WallService.posts.toString())
     }
 
+    fun getAttachmentsIsEmpty() {
+        val actualResult = WallService.getAttachments(
+            Post(
+                1,
+                "my fourth post"
+            )
+        )
+        assertTrue(actualResult == null)
+    }
+    @Test
+    fun getAttachmentsIsContains() {
+        val post = WallService.add(734,
+            Post(
+                1,
+                "my fourth post",
+                attachments = arrayOf(AudioAttachment(audio = Audio(5,65,"","",98,"",null,null,5,98756,false,true)))
+            )
+        )
+        assertTrue(WallService.getAttachments(post) is Array<Attachment>)
     @Test
     fun clearing() {
         cleaner()

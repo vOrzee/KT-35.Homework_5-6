@@ -23,10 +23,20 @@ object WallService {
     fun update(content: Post): Boolean {
         for ((index, post) in posts.withIndex()) {
             if (post.getID() == content.getID()) {
+
                 posts[index] = posts[index].fillOutOf(content)
+
                 return true
             }
         }
         return false
+    }
+    fun getAttachments(post: Post): Array<Attachment>? {
+        for (p in posts) {
+            if (p.getID() == post.getID()) {
+                return post.attachments
+            }
+        }
+        return null
     }
 }
