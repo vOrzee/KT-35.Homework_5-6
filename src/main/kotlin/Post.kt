@@ -4,28 +4,46 @@ import java.util.Date
 
 
 data class Post(
-    val fromID: Int,
+    val fromId: Int,
     var text: String,
-    var markedAsAds: Boolean = false,
-    var isPinned: Boolean = false,
+    val createdBy: Int = 0,
+    val replyOwnerId: Int = 0,
+    val replyPostId: Int = 0,
     var friendsOnly: Boolean = false,
+    val comments: Comments = Comments(0, true, true, true, true),
+    var copyright: String = "Netology",
+    val likes: Likes = Likes(0, false, true, true),
+    val reposts: Reposts = Reposts(0, false),
+    val views: Views = Views(0),
     var postType: PostType = PostType.POST,
-    var canDelete: Boolean = false,
-    var isFavorite: Boolean = false,
+    var postSource: PostSource = PostSource("Any info"),
+    val geo: Geo = Geo(),
+    val signerId:Int? = null,
+    var canPin: Boolean = true,
+    var canDelete: Boolean = true,
+    var canEdit: Boolean = true,
+    var isPinned: Boolean = false,
+    var markedAsAds: Boolean = false,
+    var isFavorite:Boolean = false,
+    var postponedId:Int? = null
 ) {
     private var id: Int? = null
-    private var ownerID: Int? = null
+    private var ownerId: Int? = null
     private var date: Int? = null
-    private var comments: Comments = Comments(0, true, true, true, true)
-    private var likes: Likes = Likes(0, false, true, true)
+
+    override fun toString(): String {
+        return "Post ID: $id was published ${this.getDate()} in wall user ID: $ownerId " + super.toString()
+    }
+    companion object {
+        private var totalID: Int = 0
+    }
+
 
     fun fillOutOf(postChanged: Post): Post {
         val postAfter: Post = postChanged
         postAfter.date = this.date
         postAfter.id = this.id
-        postAfter.ownerID = this.ownerID
-        postAfter.comments = this.comments
-        postAfter.likes = this.likes
+        postAfter.ownerId = this.ownerId
         return postAfter
     }
 
@@ -34,11 +52,11 @@ data class Post(
         Enumerator.countPosts += 1
         id = Enumerator.countPosts
         date = (currentTimeMillis() / 1000).toInt()
-        this.ownerID = ownerID
+        this.ownerId = ownerID
         true
     } else false
 
-    fun getOwnerID() = ownerID
+    fun getOwnerID() = ownerId
     fun getID() = id
     fun getDate(): String =
         if (date != null) SimpleDateFormat("dd.MM.yyyy в HH:mm:ss").format(Date(date!!.toLong() * 1000))
@@ -61,3 +79,21 @@ data class Likes(
     val canLike: Boolean,
     val canPublish: Boolean
 )
+
+data class Reposts(
+    val count: Int,
+    val userReposted: Boolean
+)
+
+data class Views(
+    val count: Int
+)
+data class PostSource(
+    val info: String = "Some info"
+)
+data class Geo(
+    val type: String = "Some place",
+    val coordinates:String = "Nothing",
+    val place:Any? = null
+)
+
