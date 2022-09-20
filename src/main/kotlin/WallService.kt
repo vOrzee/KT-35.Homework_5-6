@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-=======
+
 import attachments.Attachment
 
->>>>>>> 19fef97 (Fixed)
 object WallService {
     var posts = emptyArray<Post>()
 
