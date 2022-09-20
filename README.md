@@ -157,7 +157,7 @@ class WallServiceTest {
 
     @Test
     fun updateExisting() {
-        ...
+        
     }
 }
 ```
