@@ -1,6 +1,6 @@
 import org.junit.AfterClass
 import org.junit.Test
-
+import attachments.*
 import org.junit.Assert.*
 import org.junit.Before
 
@@ -129,6 +129,8 @@ class WallServiceTest {
             )
         )
         assertTrue(WallService.getAttachments(post) is Array<Attachment>)
+    }
+    
     @Test
     fun clearing() {
         cleaner()
