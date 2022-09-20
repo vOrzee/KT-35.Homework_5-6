@@ -1,12 +1,19 @@
+import org.junit.AfterClass
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Before
 
 class WallServiceTest {
 
+    @Before
+    fun cleaner() {
+        WallService.clear()
+        Enumerator.clear()
+    }
+
     @Test
     fun testAdds() {
-        WallService.clear()
         val ownerID = 734
         val post = Post(734, "Какая-то запись")
         val resultPost = WallService.add(ownerID, post)
@@ -15,7 +22,6 @@ class WallServiceTest {
 
     @Test
     fun testAddsRepeat() {
-        WallService.clear()
         val ownerID = 734
         val post = WallService.add(ownerID, Post(734, "Какая-то запись"))
         try {
@@ -28,7 +34,6 @@ class WallServiceTest {
 
     @Test
     fun testAddsRepeatVararg() {
-        WallService.clear()
         val ownerID = 734
         val post = WallService.add(ownerID, Post(734, "Какая-то запись"))
         val post2 = Post(734, "Какая-то ещё запись")
@@ -42,7 +47,6 @@ class WallServiceTest {
 
     @Test
     fun testUpdateInText() {
-        WallService.clear()
         val ownerID = 734
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -60,7 +64,6 @@ class WallServiceTest {
 
     @Test
     fun testUpdateIn() {
-        WallService.clear()
         val ownerID = 734
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -72,7 +75,6 @@ class WallServiceTest {
 
     @Test
     fun testUpdateOut() {
-        WallService.clear()
         val ownerID = 734
         val post1 = Post(734, "Первый пост")
         val post2 = Post(9532, "Второй пост")
@@ -84,11 +86,10 @@ class WallServiceTest {
 
     @Test
     fun testCopyPost() {
-        WallService.clear()
         val ownerID = arrayOf(734, 856)
         val post1: Post = WallService.add(ownerID[0], Post(734, "Первый пост"))
         val post2: Post = WallService.add(ownerID[1], Post(734, "Второй пост"))
-        val post3 = post1.copy(post2)
+        val post3 = post1.fillOutOf(post2)
         assertTrue(
             post1.getID() == post3.getID()
                     && post1.getOwnerID() == post3.getOwnerID()
@@ -96,9 +97,9 @@ class WallServiceTest {
                     && post2 == post3 //Equals() применяется только для параметров в конструкторе
         )
     }
+
     @Test
-    fun testSetPosts(){
-        WallService.clear()
+    fun testSetPosts() {
         val ownerID = arrayOf(734, 856)
         val posts: Array<Post> = arrayOf(
             WallService.add(ownerID[0], Post(734, "Первый пост")),
@@ -106,6 +107,11 @@ class WallServiceTest {
         )
         WallService.clear()
         WallService.posts = posts
-        assertEquals(posts.toString(),WallService.posts.toString())
+        assertEquals(posts.toString(), WallService.posts.toString())
+    }
+
+    @Test
+    fun clearing() {
+        cleaner()
     }
 }

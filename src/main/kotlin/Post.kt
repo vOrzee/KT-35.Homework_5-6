@@ -38,7 +38,8 @@ data class Post(
         private var totalID: Int = 0
     }
 
-    fun copy(postChanged: Post): Post {
+
+    fun fillOutOf(postChanged: Post): Post {
         val postAfter: Post = postChanged
         postAfter.date = this.date
         postAfter.id = this.id
@@ -47,8 +48,9 @@ data class Post(
     }
 
     fun publish(ownerID: Int): Boolean = if (id == null) {
-        totalID += 1
-        id = totalID
+        //Эта функция вместо init блока, так как по логике задания пост должен "существовать" на "какой-то" стене
+        Enumerator.countPosts += 1
+        id = Enumerator.countPosts
         date = (currentTimeMillis() / 1000).toInt()
         this.ownerId = ownerID
         true
@@ -94,3 +96,4 @@ data class Geo(
     val coordinates:String = "Nothing",
     val place:Any? = null
 )
+
